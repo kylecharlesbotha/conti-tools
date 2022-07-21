@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Web</name>
+    </assembly>
+    <members>
+        <member name="M:Web.Controllers.TodosController.GetTodoWithPagination(Application.Todos.Queries.GetPaginatedListOfTodos.GetPaginatedListOfTodosQuery)">
+            <summary>
+            Retrieves a single todo
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
