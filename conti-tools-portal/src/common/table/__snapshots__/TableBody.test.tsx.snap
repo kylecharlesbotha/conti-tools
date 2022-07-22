@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table Body tests should render the table body correctly with sensible parameters 1`] = `
+<body>
+  <div>
+    <table
+      class="MuiTable-root css-rqglhn-MuiTable-root"
+    >
+      <tbody
+        class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      >
+        <tr
+          class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+          data-testid="row-0"
+          tabindex="-1"
+        />
+      </tbody>
+    </table>
+  </div>
+</body>
+`;

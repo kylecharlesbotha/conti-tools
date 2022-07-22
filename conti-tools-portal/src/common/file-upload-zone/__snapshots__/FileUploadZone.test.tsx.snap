@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File upload zone should render correctly with no errors 1`] = `
+<body>
+  <div>
+    <div
+      class="dropzone MuiBox-root css-1p6yjdi"
+      role="button"
+      tabindex="0"
+    >
+      <input
+        accept="text/csv"
+        autocomplete="off"
+        class="css-1hyfx7x"
+        multiple=""
+        style="display: none;"
+        tabindex="-1"
+        type="file"
+      />
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1yu8f9d-MuiTypography-root"
+      >
+        Drag and drop your file here, or click to select a file
+      </p>
+    </div>
+  </div>
+</body>
+`;

@@ -1,0 +1,5 @@
+**/coverage
+**/build
+**/packages/**/lib
+package-lock.json
+

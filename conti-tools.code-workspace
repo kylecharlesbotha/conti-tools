@@ -1,0 +1,33 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "conti-tools-api"
+    },
+    {
+      "path": "conti-tools-portal"
+    },
+   
+  ],
+  "settings": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "[csharp]": {
+      "editor.defaultFormatter": "ms-dotnettools.csharp"
+    },
+    "cSpell.language": "en-GB",
+    "jest.disabledWorkspaceFolders": ["conti-tools-api"],
+    "jest.autoRun": "off",
+    "dotnet-test-explorer.testProjectPath": "**/*Test.@(csproj|vbproj|fsproj)",
+    "omnisharp.organizeImportsOnFormat": true,
+    "omnisharp.useModernNet": true,
+    "omnisharp.useGlobalMono": "always",
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+   
+  }
+}

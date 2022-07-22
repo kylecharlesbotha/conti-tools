@@ -1,0 +1,8 @@
+Account ID,Account Name,Allocated Office,Account Owner,Customer Group,Account Status,Account Owner email,Billing email address 1,Booking Start Date,Booking End Date,Max time (Antwerp),Max time (Tel Aviv),Max time (Mumbai),Max time (Hong Kong),Billing Country
+100000001,4 CS Ltd,Tel Aviv,Danny Peles,Non-Sightholders,Active,danny@csltd.com,,9/2/2020 17:00,9/24/2020 17:00,60,60,60,60,Israel
+100000002,4G GEMS,Mumbai,Rhyzard Bilimoria,Non-Sightholders,Active,rhyzard@ggems.com,,9/2/2020 17:00,9/24/2020 17:00,60,60,150,60,India
+100000003,9204-7455 Quebec Inc,Antwerp,Rhyzard Bilimoria,Non-Sightholders,Active,rhyzard@quebecinc.com,,9/2/2020 17:00,9/24/2020 17:00,60,60,60,60,Canada
+100000004,4-7455 Quebec Inc,Tel Aviv,Danny Peles,Non-Sightholders,Active,danny@quebecinc.com,,9/2/2020 17:00,9/24/2020 17:00,60,120,60,60,Israel
+100000005,A.B Jewels LTD,Tel Aviv,Rhyzard Bilimoria,Non-Sightholders,Active,rhyzard@altd.com,,9/2/2020 17:00,9/24/2020 17:00,60,60,60,60,Israel
+100000006,A. D. Diamond,Tel Aviv,Anish Mehta,Non-Sightholders,Active,anish@adiamond.com,,9/2/2020 17:00,9/24/2020 17:00,60,60,150,60,India
+100000007,A. Dalumi Private Ltd,Tel Aviv,Danny Peles,Sightholders,Active,danny@altd.com,,9/2/2020 17:00,9/24/2020 17:00,60,60,60,60,Israel

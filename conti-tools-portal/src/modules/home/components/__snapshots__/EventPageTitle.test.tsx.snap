@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing title rendering 1`] = `
+<body>
+  <div>
+    <h2
+      class="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+    >
+      Welcome to DBAS!
+    </h2>
+  </div>
+</body>
+`;

@@ -1,0 +1,127 @@
+{
+  "name": "web-monitor",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --coverage --watchAll=false",
+    "test:watch": "react-scripts test",
+    "test:ci": "CI=true react-scripts test --ci --coverage",
+    "e2e": "cypress run",
+    "lint": "eslint .",
+    "prettier": "prettier --write \"**/*.+(js|ts|tsx|json|css|md)\"",
+    "format": "eslint . && prettier --write \"**/*.+(js|ts|tsx|json|css|md)\"",
+    "ci": "eslint . && prettier --check \"**/*.+(js|ts|tsx|json|css|md)\"",
+    "prepare": "cd .. && npx husky install web-monitor"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "./src/**/*.{ts,tsx,js,jsx}",
+      "./src/lib/**/*",
+      "!**/*.type.ts",
+      "!**/*.enum.ts",
+      "!**/index.ts",
+      "!./src/reportWebVitals.ts",
+      "!./src/index.tsx",
+      "!**/*.d.ts",
+      "!**/node_modules/**",
+      "!./src/lib/testing-helpers/*",
+      "!./src/modules/archived/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 12,
+        "functions": 15,
+        "lines": 14,
+        "statements": 14
+      },
+      "./src/lib/": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@devexpress/dx-react-core": "^3.0.2",
+    "@devexpress/dx-react-scheduler": "^3.0.2",
+    "@devexpress/dx-react-scheduler-material-ui": "^3.0.2",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@fontsource/roboto": "^4.5.3",
+    "@fontsource/roboto-mono": "^4.5.3",
+    "@hookform/error-message": "^2.0.0",
+    "@microsoft/signalr": "^6.0.5",
+    "@mui/icons-material": "^5.4.2",
+    "@mui/lab": "^5.0.0-alpha.73",
+    "@mui/material": "^5.4.2",
+    "@mui/x-date-pickers": "^5.0.0-alpha.2",
+    "axios": "^0.26.0",
+    "classnames": "^2.3.1",
+    "cypress-file-upload": "^5.0.8",
+    "date-fns": "^2.28.0",
+    "lodash": "^4.17.21",
+    "material-ui-confirm": "^3.0.4",
+    "notistack": "^2.0.3",
+    "papaparse": "^5.3.2",
+    "react": "^17.0.2",
+    "react-big-calendar": "^0.40.1",
+    "react-dom": "^17.0.2",
+    "react-dropzone": "^12.0.4",
+    "react-hook-form": "^7.27.0",
+    "react-multi-carousel": "^2.8.0",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "^5.0.0",
+    "tedious": "^14.4.0",
+    "typescript": "^4.5.5",
+    "use-query-params": "^1.2.3",
+    "uuid": "^8.3.2",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "^8.0.2",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.3",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.4.0",
+    "@types/lodash": "^4.14.178",
+    "@types/node": "^17.0.25",
+    "@types/papaparse": "^5.3.2",
+    "@types/react": "^17.0.39",
+    "@types/react-big-calendar": "^0.38.0",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/tedious": "^4.0.7",
+    "cypress": "^9.5.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-security": "^1.4.0",
+    "jsdom": "^19.0.0",
+    "lint-staged": "^12.3.5",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.3"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
+  }
+}

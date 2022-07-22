@@ -42,6 +42,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Fleece.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[0.9.0, )"
+            },
             "FluentValidation.DependencyInjectionExtensions": {
               "target": "Package",
               "version": "[10.3.6, )"

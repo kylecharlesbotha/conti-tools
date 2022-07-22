@@ -4,6 +4,13 @@
         <name>Web</name>
     </assembly>
     <members>
+        <member name="M:Web.Controllers.BackorderReportsController.GetTodoWithPagination(Application.BackorderReports.Commands.CreateBackOrderReportsCommand.CreateBackOrderReportsCommand)">
+            <summary>
+            Creates a single backorder report
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
         <member name="M:Web.Controllers.TodosController.GetTodoWithPagination(Application.Todos.Queries.GetPaginatedListOfTodos.GetPaginatedListOfTodosQuery)">
             <summary>
             Retrieves a single todo
