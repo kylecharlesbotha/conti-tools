@@ -7,18 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="BackorderReports" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <PackageReference Include="EPPlus" Version="6.0.6" />
+      <PackageReference Include="ExcelDataReader" Version="3.6.0" />
       <PackageReference Include="Fleece.NewtonsoftJson" Version="0.9.0" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
+      <PackageReference Include="LinqToExcel" Version="1.11.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="6.0.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+      <PackageReference Include="System.Data.OleDb" Version="6.0.0" />
+      <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
     </ItemGroup>
 
     <ItemGroup>

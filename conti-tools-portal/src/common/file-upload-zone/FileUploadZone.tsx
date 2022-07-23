@@ -1,11 +1,12 @@
 import { Box, styled, Typography, Chip } from '@mui/material';
-import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { head } from 'lodash';
 import FolderIcon from '@mui/icons-material/Folder';
 
 interface IFileUploadZone {
   setUploadFile: (file: string | ArrayBuffer | null | undefined) => void;
+  setFileName: (fileName: string) => void;
+  fileName: string;
   hasUploadError: boolean;
 }
 
@@ -15,10 +16,10 @@ const Input = styled('input')({
 
 export const FileUploadZone = ({
   setUploadFile,
+  setFileName,
+  fileName,
   hasUploadError
 }: IFileUploadZone) => {
-  const [fileName, setFileName] = useState('');
-
   const onDrop = async (acceptedFiles: File[]) => {
     const file = head(acceptedFiles);
     if (file) {

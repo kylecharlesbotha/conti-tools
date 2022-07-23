@@ -11,12 +11,15 @@ public class ContinentalToolsDbContext : DbContext, IContinentalToolsDbContext
     public ContinentalToolsDbContext(DbContextOptions<ContinentalToolsDbContext> options) : base(options)
     { }
 
-    public DbSet<Todo> Todos => Set<Todo>(); 
-     
-    
+    public DbSet<Todo> Todos => Set<Todo>();
+    public DbSet<FileUpload> FileUploads => Set<FileUpload>(); 
+    public DbSet<ReportRecord> ReportRecords => Set<ReportRecord>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new TodoConfiguration());
+        modelBuilder.ApplyConfiguration(new FileUploadConfiguration());
+        modelBuilder.ApplyConfiguration(new ReportRecordConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

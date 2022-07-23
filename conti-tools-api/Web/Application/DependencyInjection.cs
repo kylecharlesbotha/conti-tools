@@ -18,7 +18,7 @@ public static class DependencyInjection
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddScoped<ITodoQueryMapper, TodoQueryMapper>();
-         
+        services.AddScoped<IFileUploadsQueryMapper, FileUploadsQueryMapper>(); 
         return services;
     }
 }

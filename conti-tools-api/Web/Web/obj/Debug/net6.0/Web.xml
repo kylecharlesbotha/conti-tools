@@ -4,9 +4,23 @@
         <name>Web</name>
     </assembly>
     <members>
-        <member name="M:Web.Controllers.BackorderReportsController.GetTodoWithPagination(Application.BackorderReports.Commands.CreateBackOrderReportsCommand.CreateBackOrderReportsCommand)">
+        <member name="M:Web.Controllers.BackorderReportsController.CreateBackorderReport(Application.BackorderReports.Commands.CreateBackOrderReportsCommand.CreateBackOrderReportsCommand)">
             <summary>
             Creates a single backorder report
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.BackorderReportsController.GetCombinedBackorderReport">
+            <summary>
+            Gets a report of combined results
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.FileUploadsController.GetPaginatedListOfFileUploads(Application.FileUploads.Queries.GetPaginatedListOfFileUploads.GetPaginatedListOfFileUploadsQuery)">
+            <summary>
+            Gets a paginated list of file uploads
             </summary>
             <param name="query"></param>
             <returns></returns>

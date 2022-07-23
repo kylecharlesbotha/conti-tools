@@ -4,7 +4,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  TextField
 } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { isEmpty } from 'lodash';
@@ -27,10 +30,16 @@ export const ReportUploadDialog = ({
   const [uploadFile, setUploadFile] = useState<
     string | ArrayBuffer | null | undefined
   >(null);
+  const [commentIdentifier, setCommentIdentifier] = useState('');
+  const [fileName, setFileName] = useState('');
   const { uploadReport } = useFileUploadService();
   const processFile = async () => {
     if (uploadFile) {
-      const response = (await uploadReport(uploadFile)) as AxiosResponse;
+      const response = (await uploadReport(
+        uploadFile,
+        fileName,
+        commentIdentifier
+      )) as AxiosResponse;
       if (response.status < 300 && response.status >= 200) {
         handleClickClose();
       }
@@ -47,9 +56,24 @@ export const ReportUploadDialog = ({
     >
       <DialogTitle>Upload Products</DialogTitle>
       <DialogContent>
+        <Box>
+          <FormControl>
+            <InputLabel id="demo-simple-select-filled-label">
+              Comment Identifier
+            </InputLabel>
+            <TextField
+              id="outlined-basic"
+              label="Outlined"
+              variant="outlined"
+              onChange={(e) => setCommentIdentifier(e.target.value)}
+            />
+          </FormControl>
+        </Box>
         <Box mt={2}>
           <FileUploadZone
             setUploadFile={setUploadFile}
+            setFileName={setFileName}
+            fileName={fileName}
             hasUploadError={!isEmpty(errors)}
           />
           <UploadErrorsTable errors={errors} />

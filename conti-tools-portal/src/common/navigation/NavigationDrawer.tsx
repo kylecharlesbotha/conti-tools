@@ -80,6 +80,11 @@ export const NavigationDrawer = ({
       to: '/file-uploads',
       primary: 'File Uploads',
       icon: <EqualizerIcon sx={{ color: 'white' }} />
+    },
+    {
+      to: '/report-downloads',
+      primary: 'Report Downloads',
+      icon: <EqualizerIcon sx={{ color: 'white' }} />
     }
   ];
 
