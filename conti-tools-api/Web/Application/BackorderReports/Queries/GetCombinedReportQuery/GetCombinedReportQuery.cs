@@ -1,6 +1,5 @@
 ﻿using System.Dynamic;
 using System.Reflection;
-using System.Reflection.Emit;
 using Application.Common.ClassGeneration;
 using Application.Common.Comparators;
 using Application.Common.Interfaces;
@@ -31,8 +30,8 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
 
     public async Task<byte[]> Handle(GetCombinedReportQuery request, CancellationToken cancellationToken)
     {
-        var contiCommentsName = " Conti Comments"; 
-        var aberdareCommentsName = " Aberdare Comments"; 
+        var contiCommentsName = " Conti Comments";
+        var aberdareCommentsName = " Aberdare Comments";
         var uploads = await _context.FileUploads.Include(fileUpload => fileUpload.ReportRecords).ToListAsync(cancellationToken: cancellationToken);
 
         var uploadsDictionary = new Dictionary<FileUpload, List<ReportRecord>>();
@@ -46,6 +45,7 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
 
         //get column names in string[]
         var propertyNames = typeof(ReportRecord).GetProperties().Select(p => p.Name).ToList();
+
         propertyNames.RemoveAll(u => u.StartsWith("Comments"));
 
         //get comment columns in string[] 
@@ -58,12 +58,19 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
 
         var commentColumnNamesArray = propertyNames.ToArray();
         var commentColTypesArray = new Type[propertyNames.Count];
-        commentColTypesArray[0] = typeof(int);
-        commentColTypesArray[1] = typeof(Guid);
-
-        for (int i = 2; i < propertyNames.Count; i++)
+        
+        for (int i = 0; i < commentColumnNamesArray.Length; i++)
         {
-            commentColTypesArray[i] = typeof(string);
+            try
+            {
+                var propType = typeof(ReportRecord).GetProperty(commentColumnNamesArray[i]).PropertyType;
+                commentColTypesArray[i] = propType;
+                _logger.LogInformation("Setting " + commentColumnNamesArray[i] + " to " + propType.ToString());
+            }
+            catch
+            {
+                commentColTypesArray[i] = typeof(string);
+            }
         }
 
         List<object?> customObjs = new List<object?>();
@@ -84,30 +91,30 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
                         Convert.ChangeType(record.GetType().GetProperty(commentColumnNamesArray[j]).GetValue(record, null),
                             propInfo.PropertyType), null);
                 }
-                
+
                 foreach (var upload in uploads)
                 {
                     var recordComment = upload.ReportRecords.Find(reportRecord =>
-                        reportRecord.SalesDoc == record.SalesDoc && reportRecord.PurchaseOrderNo == record.PurchaseOrderNo &&
-                        reportRecord.MaterialDescription == record.MaterialDescription)
-                        ?.Comments; 
-                    
+                            reportRecord.SalesDoc == record.SalesDoc && reportRecord.PurchaseOrderNo == record.PurchaseOrderNo &&
+                            reportRecord.MaterialDescription == record.MaterialDescription)
+                        ?.Comments;
+
                     PropertyInfo propInfo = combinedRecord.GetType().GetProperty(upload.CommentIdentifier + aberdareCommentsName);
                     propInfo.SetValue(combinedRecord,
                         Convert.ChangeType(recordComment,
                             propInfo.PropertyType), null);
                 }
             }
+
             customObjs.Add(combinedRecord);
         }
 
-
-        _logger.LogInformation(JsonConvert.SerializeObject(customObjs));
+        //_logger.LogInformation(JsonConvert.SerializeObject(customObjs));
 
         dynamic obj = new ExpandoObject();
         obj.Report = unionedRecords;
-        
-        ExcelPackage ExcelPkg = new ExcelPackage();  
+
+        ExcelPackage ExcelPkg = new ExcelPackage();
         ExcelWorksheet wsSheet1 = ExcelPkg.Workbook.Worksheets.Add("Sheet1");
 
 
@@ -115,7 +122,6 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
         {
             for (int j = 2; j < commentColumnNamesArray.Length; j++)
             {
-                _logger.LogInformation(commentColumnNamesArray[j]);
                 if (i == 1)
                 {
                     wsSheet1.Cells[i, j - 1].Value = commentColumnNamesArray[j];
@@ -124,17 +130,41 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
                 }
                 else
                 {
-                    var val = customObjs.ElementAt(i - 1).GetType().GetProperty(commentColumnNamesArray[j])
-                        .GetValue(customObjs.ElementAt(i - 1), null);
-                    wsSheet1.Cells[i, j - 1].Value = val;
-                     
+                    var val = customObjs.ElementAt(i - 2).GetType().GetProperty(commentColumnNamesArray[j])
+                        .GetValue(customObjs.ElementAt(i - 2), null);
+                    if (val != null)
+                    {
+                        switch (Type.GetTypeCode(val.GetType()))
+                        {
+                            case TypeCode.String:
+                                wsSheet1.Cells[i, j - 1].Value = val;
+                                break;
+                            case TypeCode.Int32:
+                                wsSheet1.Cells[i, j - 1].Value = val;
+                                break;
+                            case TypeCode.DateTime:
+                                wsSheet1.Cells[i, j - 1].Value = val;
+                                wsSheet1.Cells[i, j - 1].Style.Numberformat.Format = "mm-dd-yy";
+                                break; 
+                            case TypeCode.Decimal:
+                                wsSheet1.Cells[i, j - 1].Value = val;
+                                wsSheet1.Cells[i, j - 1].Style.Numberformat.Format = "#,##0.00";
+                                break; 
+                            
+                            default:
+                                wsSheet1.Cells[i, j - 1].Value = val;
+                                break;
+                        }
+                    }
+                   
+                    
                 }
             }
         }
-        
-        wsSheet1.Protection.IsProtected = false;  
-        wsSheet1.Protection.AllowSelectLockedCells = false; 
-        
+
+        wsSheet1.Protection.IsProtected = false;
+        wsSheet1.Protection.AllowSelectLockedCells = false;
+
         var stream = new MemoryStream(await ExcelPkg.GetAsByteArrayAsync(cancellationToken)).ToArray();
 
         return stream;

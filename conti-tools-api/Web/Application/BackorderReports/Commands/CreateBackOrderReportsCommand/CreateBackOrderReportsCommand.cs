@@ -51,21 +51,21 @@ public class CreateBackOrderReportsCommandHandler : IRequestHandler<CreateBackOr
                 fileUpload.ReportRecords.Add(new ReportRecord
                 {
                     SalesDoc = worksheet.Cells[row, 1].Value?.ToString().Trim(),
-                    PODate = worksheet.Cells[row, 2].Value?.ToString().Trim(),
+                    PODate = DateTime.Parse(worksheet.Cells[row, 2].Value?.ToString().Trim()) ,
                     PurchaseOrderNo = worksheet.Cells[row, 3].Value?.ToString().Trim(),
-                    Item = worksheet.Cells[row, 4].Value?.ToString().Trim(),
+                    Item = Int32.Parse(worksheet.Cells[row, 4].Value?.ToString().Trim()),
                     Plant = worksheet.Cells[row, 5].Value?.ToString().Trim(),
                     MaterialDescription = worksheet.Cells[row, 6].Value?.ToString().Trim(),
                     MaterialNumber = worksheet.Cells[row, 7].Value?.ToString().Trim(),
-                    QtyOutst = worksheet.Cells[row, 8].Value?.ToString().Trim(),
+                    QtyOutst = Int32.Parse(worksheet.Cells[row, 8].Value?.ToString().Trim()),
                     CustomerInfo = worksheet.Cells[row, 9].Value?.ToString().Trim(),
-                    Reqdlvdt = worksheet.Cells[row, 10].Value?.ToString().Trim(),
-                    SchedLnDate = worksheet.Cells[row, 11].Value?.ToString().Trim(),
-                    DaysLate = worksheet.Cells[row, 12].Value?.ToString().Trim(),
+                    Reqdlvdt = DateTime.Parse(worksheet.Cells[row, 10].Value?.ToString().Trim()),
+                    SchedLnDate = DateTime.Parse(worksheet.Cells[row, 11].Value?.ToString().Trim()),
+                    DaysLate = Int32.Parse(worksheet.Cells[row, 12].Value?.ToString().Trim()),
                     FifoQtyOnHand = worksheet.Cells[row, 13].Value?.ToString().Trim(),
                     ActualQtyOnHand = worksheet.Cells[row, 14].Value?.ToString().Trim(),
                     CustomerStock = worksheet.Cells[row, 15].Value?.ToString().Trim(),
-                    OutstValue = worksheet.Cells[row, 16].Value?.ToString().Trim(),
+                    OutstValue = Decimal.Parse(worksheet.Cells[row, 16].Value?.ToString().Trim()),
                     Comments = worksheet.Cells[row, 17].Value?.ToString().Trim()
                 });
             }
