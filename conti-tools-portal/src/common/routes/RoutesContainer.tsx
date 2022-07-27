@@ -7,7 +7,7 @@ import { RouteAdaptor } from './RouteAdaptor';
 
 const Home = lazy(() => import('src/modules/home'));
 const FileUploads = lazy(() => import('src/modules/file-uploads'));
-const ReportsDownload = lazy(() => import('src/modules/report-download'));
+const Data = lazy(() => import('src/modules/data'));
 
 export const RoutesContainer = () => {
   return (
@@ -17,7 +17,7 @@ export const RoutesContainer = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/file-uploads" element={<FileUploads />} />
-            <Route path="/report-downloads" element={<ReportsDownload />} />
+            <Route path="/data" element={<Data />} />
           </Routes>
         </QueryParamProvider>
       </Suspense>

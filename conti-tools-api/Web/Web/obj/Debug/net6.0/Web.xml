@@ -18,11 +18,44 @@
             <param name="query"></param>
             <returns></returns>
         </member>
+        <member name="M:Web.Controllers.BackorderReportsController.GetPaginatedListOfFileUploads(Application.BackorderReports.Queries.GetPaginatedListOfBackorderReports.GetPaginatedListOfBackorderReportsQuery)">
+            <summary>
+            Gets a paginated list of report records
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.BackorderReportsController.GetPaginatedListOfFileUploads(Application.BackorderReports.Commands.UpdateBackorderReportCommand.UpdateBackorderReportCommand)">
+            <summary>
+            Updates a report record
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Web.Controllers.FileUploadsController.GetPaginatedListOfFileUploads(Application.FileUploads.Queries.GetPaginatedListOfFileUploads.GetPaginatedListOfFileUploadsQuery)">
             <summary>
             Gets a paginated list of file uploads
             </summary>
             <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.FileUploadsController.GetDistinctCommentIdentifier">
+            <summary>
+            Gets a distinct list of all comment identifiers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.FileUploadsController.DeleteFileUpload(System.Guid)">
+            <summary>
+            Deletes a file upload in the system
+            </summary>
+            <param name="fileUploadId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Controllers.FileUploadsController.GetFileUplaodExcel(System.Guid)">
+            <summary>
+            Gets a file upload by id
+            </summary>
+            <param name="fileUploadId"></param>
             <returns></returns>
         </member>
         <member name="M:Web.Controllers.TodosController.GetTodoWithPagination(Application.Todos.Queries.GetPaginatedListOfTodos.GetPaginatedListOfTodosQuery)">

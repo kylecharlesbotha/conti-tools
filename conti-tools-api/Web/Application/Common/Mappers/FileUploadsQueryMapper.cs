@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.FileUploads.Queries.GetDistinctListOfCommentIdentifiers;
 using Application.FileUploads.Queries.GetPaginatedListOfFileUploads;
 using Domain.Entities;
 
@@ -10,9 +11,19 @@ public class FileUploadsQueryMapper : IFileUploadsQueryMapper
     {
         return new FileUploadDto
         {
+            FileUploadId = fileUpload.FileUploadId, 
             FileName = fileUpload.FileName,
             CommentIdentifier = fileUpload.CommentIdentifier,
             DateUploaded = fileUpload.DateUploaded
         };
+    }
+
+    public CommentIdentifierDto MapToCommentIdentifierDto(FileUpload fileUpload)
+    {
+        return new CommentIdentifierDto
+        {
+            FileUploadId = fileUpload.FileUploadId,
+            CommentIdentifier = fileUpload.CommentIdentifier
+        }; 
     }
 }

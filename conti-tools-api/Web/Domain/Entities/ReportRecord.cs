@@ -21,4 +21,6 @@ public class ReportRecord
     public string CustomerStock { get; set; } = string.Empty;
     public decimal OutstValue { get; set; }  
     public string Comments { get; set; } = string.Empty;
+    
+    public string ContiComments { get; set; } = string.Empty; 
 }

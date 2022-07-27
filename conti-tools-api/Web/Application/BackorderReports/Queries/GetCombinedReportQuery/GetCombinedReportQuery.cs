@@ -46,7 +46,7 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
         //get column names in string[]
         var propertyNames = typeof(ReportRecord).GetProperties().Select(p => p.Name).ToList();
 
-        propertyNames.RemoveAll(u => u.StartsWith("Comments"));
+        propertyNames.RemoveAll(u => u.ToLower().Contains("comments"));
 
         //get comment columns in string[] 
         var commentColumnNames = uploads.Select(upload => upload.CommentIdentifier).Distinct();
@@ -65,7 +65,6 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
             {
                 var propType = typeof(ReportRecord).GetProperty(commentColumnNamesArray[i]).PropertyType;
                 commentColTypesArray[i] = propType;
-                _logger.LogInformation("Setting " + commentColumnNamesArray[i] + " to " + propType.ToString());
             }
             catch
             {
@@ -84,7 +83,7 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
             for (int j = 2; j < commentColumnNamesArray.Length; j++)
             {
                 var record = unionedRecords.ElementAt(i);
-                if (!commentColumnNamesArray[j].Contains("Comment"))
+                if (!commentColumnNamesArray[j].ToLower().Contains("comment"))
                 {
                     PropertyInfo propInfo = combinedRecord.GetType().GetProperty(commentColumnNamesArray[j]);
                     propInfo.SetValue(combinedRecord,
@@ -94,15 +93,25 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
 
                 foreach (var upload in uploads)
                 {
-                    var recordComment = upload.ReportRecords.Find(reportRecord =>
+                    var recordAberdareComment = upload.ReportRecords.Find(reportRecord =>
                             reportRecord.SalesDoc == record.SalesDoc && reportRecord.PurchaseOrderNo == record.PurchaseOrderNo &&
                             reportRecord.MaterialDescription == record.MaterialDescription)
                         ?.Comments;
+                    
+                    var recordContiComment = upload.ReportRecords.Find(reportRecord =>
+                            reportRecord.SalesDoc == record.SalesDoc && reportRecord.PurchaseOrderNo == record.PurchaseOrderNo &&
+                            reportRecord.MaterialDescription == record.MaterialDescription)
+                        ?.ContiComments;
 
                     PropertyInfo propInfo = combinedRecord.GetType().GetProperty(upload.CommentIdentifier + aberdareCommentsName);
                     propInfo.SetValue(combinedRecord,
-                        Convert.ChangeType(recordComment,
+                        Convert.ChangeType(recordAberdareComment,
                             propInfo.PropertyType), null);
+                    
+                    PropertyInfo propInfoConti = combinedRecord.GetType().GetProperty(upload.CommentIdentifier + contiCommentsName);
+                    propInfoConti.SetValue(combinedRecord,
+                        Convert.ChangeType(recordContiComment,
+                            propInfoConti.PropertyType), null);
                 }
             }
 
@@ -116,7 +125,6 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
 
         ExcelPackage ExcelPkg = new ExcelPackage();
         ExcelWorksheet wsSheet1 = ExcelPkg.Workbook.Worksheets.Add("Sheet1");
-
 
         for (int i = 1; i < customObjs.Count; i++)
         {
@@ -132,11 +140,11 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
                 {
                     var val = customObjs.ElementAt(i - 2).GetType().GetProperty(commentColumnNamesArray[j])
                         .GetValue(customObjs.ElementAt(i - 2), null);
-                    if (val != null)
+                    if (val != null) 
                     {
                         switch (Type.GetTypeCode(val.GetType()))
                         {
-                            case TypeCode.String:
+                            case TypeCode.String: 
                                 wsSheet1.Cells[i, j - 1].Value = val;
                                 break;
                             case TypeCode.Int32:

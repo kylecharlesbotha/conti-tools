@@ -19,6 +19,7 @@ public static class DependencyInjection
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddScoped<ITodoQueryMapper, TodoQueryMapper>();
         services.AddScoped<IFileUploadsQueryMapper, FileUploadsQueryMapper>(); 
+        services.AddScoped<IBackorderReportsQueryMapper, BackorderReportsQueryMapper>(); 
         return services;
     }
 }

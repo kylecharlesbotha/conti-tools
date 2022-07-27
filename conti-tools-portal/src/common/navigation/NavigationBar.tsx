@@ -17,6 +17,7 @@ export const NavigationBar = ({
     <AppBar
       position="fixed"
       sx={{
+        backgroundColor: (theme) => theme.palette.primary.main,
         zIndex: (theme) => theme.zIndex.drawer + 1,
         transition: (theme: Theme) =>
           theme.transitions.create(['width', 'margin'], {

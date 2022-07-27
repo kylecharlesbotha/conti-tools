@@ -11,9 +11,10 @@ import {
 } from '@mui/material';
 import { NavigationLink } from './NavigationLink';
 import HomeIcon from '@mui/icons-material/Home';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
-import { stylesOverride } from 'src/styles-override';
 
+import { stylesOverride } from 'src/styles-override';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import TocIcon from '@mui/icons-material/Toc';
 interface NavigationDrawerProps {
   drawerWidth: number;
   isOpen: boolean;
@@ -78,13 +79,13 @@ export const NavigationDrawer = ({
     },
     {
       to: '/file-uploads',
-      primary: 'File Uploads',
-      icon: <EqualizerIcon sx={{ color: 'white' }} />
+      primary: 'Reports',
+      icon: <SummarizeIcon sx={{ color: 'white' }} />
     },
     {
-      to: '/report-downloads',
-      primary: 'Report Downloads',
-      icon: <EqualizerIcon sx={{ color: 'white' }} />
+      to: '/data',
+      primary: 'Data',
+      icon: <TocIcon sx={{ color: 'white' }} />
     }
   ];
 

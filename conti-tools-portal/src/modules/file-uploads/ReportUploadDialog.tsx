@@ -1,3 +1,4 @@
+import { LoadingButton } from '@mui/lab';
 import {
   Box,
   Button,
@@ -6,7 +7,6 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  InputLabel,
   TextField
 } from '@mui/material';
 import { AxiosResponse } from 'axios';
@@ -33,7 +33,10 @@ export const ReportUploadDialog = ({
   const [commentIdentifier, setCommentIdentifier] = useState('');
   const [fileName, setFileName] = useState('');
   const { uploadReport } = useFileUploadService();
+  const [isLoading, setIsLoading] = useState(false);
+
   const processFile = async () => {
+    setIsLoading(true);
     if (uploadFile) {
       const response = (await uploadReport(
         uploadFile,
@@ -41,11 +44,13 @@ export const ReportUploadDialog = ({
         commentIdentifier
       )) as AxiosResponse;
       if (response.status < 300 && response.status >= 200) {
+        setFileName('');
         handleClickClose();
       }
       const { errors } = response.data as UploadException;
       setErrors(errors);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -54,17 +59,17 @@ export const ReportUploadDialog = ({
       onClose={handleClickClose}
       PaperProps={{ sx: { minWidth: '500px' } }}
     >
-      <DialogTitle>Upload Products</DialogTitle>
+      <DialogTitle>Upload Report</DialogTitle>
       <DialogContent>
         <Box>
           <FormControl>
-            <InputLabel id="demo-simple-select-filled-label">
-              Comment Identifier
-            </InputLabel>
             <TextField
-              id="outlined-basic"
-              label="Outlined"
+              sx={{ mt: 1 }}
+              required
+              id="outlined-required"
+              label="Comment Identifier"
               variant="outlined"
+              helperText="Comment Identifier: e.g. 08-17"
               onChange={(e) => setCommentIdentifier(e.target.value)}
             />
           </FormControl>
@@ -84,13 +89,22 @@ export const ReportUploadDialog = ({
           onClick={() => {
             handleClickClose();
             setErrors(undefined);
+            setFileName('');
           }}
         >
           Cancel
         </Button>
-        <Button variant="contained" onClick={processFile}>
+        <LoadingButton
+          variant="contained"
+          onClick={processFile}
+          disabled={
+            commentIdentifier.trim().length === 0 ||
+            fileName.trim().length === 0
+          }
+          loading={isLoading}
+        >
           Upload
-        </Button>
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );

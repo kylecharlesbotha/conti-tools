@@ -6,7 +6,7 @@ export const stylesOverride: ThemeOptions = {
       main: '#12233A'
     },
     secondary: {
-      main: '#0077BF'
+      main: '#E04403'
     },
     success: {
       main: '#92C044'

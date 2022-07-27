@@ -49,6 +49,8 @@ export const useTableQueryParams = ({
   const setPageSize = (pageSize: number) => setQuery({ pageSize }, 'replaceIn');
 
   const handlePageChange = (page: number) => {
+    // eslint-disable-next-line no-console
+    console.log(`Page: ${page} pageSize ${pageSize}`);
     setPage(page);
   };
 

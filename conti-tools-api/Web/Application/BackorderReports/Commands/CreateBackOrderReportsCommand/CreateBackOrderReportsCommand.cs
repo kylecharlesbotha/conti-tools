@@ -1,6 +1,8 @@
 ﻿using System.Text.RegularExpressions;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
+ 
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OfficeOpenXml;
@@ -27,6 +29,12 @@ public class CreateBackOrderReportsCommandHandler : IRequestHandler<CreateBackOr
 
     public async Task<int> Handle(CreateBackOrderReportsCommand request, CancellationToken cancellationToken)
     {
+        if (_context.FileUploads.Any(fileUpload => fileUpload.CommentIdentifier == request.CommentIdentifier))
+        {
+            throw new ValidationException("Comment Identifier", "File cannot have the same comment identifier as another Spreadsheet"); 
+        }
+        
+        
         string result = Regex.Replace(request.File, @"^data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,", string.Empty);
         var fileBytes = Convert.FromBase64String(result);
         
@@ -66,7 +74,8 @@ public class CreateBackOrderReportsCommandHandler : IRequestHandler<CreateBackOr
                     ActualQtyOnHand = worksheet.Cells[row, 14].Value?.ToString().Trim(),
                     CustomerStock = worksheet.Cells[row, 15].Value?.ToString().Trim(),
                     OutstValue = Decimal.Parse(worksheet.Cells[row, 16].Value?.ToString().Trim()),
-                    Comments = worksheet.Cells[row, 17].Value?.ToString().Trim()
+                    Comments = worksheet.Cells[row, 17].Value?.ToString().Trim(),
+                    ContiComments = string.Empty
                 });
             }
             _context.FileUploads.Add(fileUpload);

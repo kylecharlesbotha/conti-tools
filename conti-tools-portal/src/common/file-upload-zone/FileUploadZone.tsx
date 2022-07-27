@@ -38,6 +38,7 @@ export const FileUploadZone = ({
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 1,
+    accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     onDrop
   });
 
@@ -64,6 +65,9 @@ export const FileUploadZone = ({
           <Input {...getInputProps()} />
           <Typography color="grey.500">
             Drag and drop your file here, or click to select a file
+          </Typography>
+          <Typography color="#FF7276" sx={{ pt: 3 }}>
+            .xlsx files only
           </Typography>
         </Box>
       ) : (
