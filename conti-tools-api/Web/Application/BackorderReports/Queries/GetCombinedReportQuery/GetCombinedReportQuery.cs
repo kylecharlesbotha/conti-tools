@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Drawing;
+using System.Dynamic;
 using System.Reflection;
 using Application.Common.ClassGeneration;
 using Application.Common.Comparators;
@@ -56,9 +57,11 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
             propertyNames.Add(col + contiCommentsName);
         }
 
+        propertyNames.Add("completed");
+
         var commentColumnNamesArray = propertyNames.ToArray();
         var commentColTypesArray = new Type[propertyNames.Count];
-        
+
         for (int i = 0; i < commentColumnNamesArray.Length; i++)
         {
             try
@@ -80,14 +83,30 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
             var combinedRecord = MCB.CreateObject(commentColumnNamesArray, commentColTypesArray);
             Type TP = combinedRecord.GetType();
 
+            var recCount = _context.ReportRecords.Count(records => records.MaterialDescription == unionedRecords.ElementAt(i).MaterialDescription &&
+                                                                   records.SalesDoc == unionedRecords.ElementAt(i).SalesDoc &&
+                                                                   records.PurchaseOrderNo == unionedRecords.ElementAt(i).PurchaseOrderNo);
+
+            var completed = recCount < uploads.Count;
+
+            _logger.LogInformation($"RecCount {recCount}, uploadCount: {uploads.Count}, completed: {completed}");
+
             for (int j = 2; j < commentColumnNamesArray.Length; j++)
             {
                 var record = unionedRecords.ElementAt(i);
-                if (!commentColumnNamesArray[j].ToLower().Contains("comment"))
+                if (!commentColumnNamesArray[j].ToLower().Contains("comment") && !commentColumnNamesArray[j].ToLower().Contains("completed"))
                 {
                     PropertyInfo propInfo = combinedRecord.GetType().GetProperty(commentColumnNamesArray[j]);
                     propInfo.SetValue(combinedRecord,
                         Convert.ChangeType(record.GetType().GetProperty(commentColumnNamesArray[j]).GetValue(record, null),
+                            propInfo.PropertyType), null);
+                }
+
+                if (commentColumnNamesArray[j].ToLower().Contains("completed"))
+                {
+                    PropertyInfo propInfo = combinedRecord.GetType().GetProperty(commentColumnNamesArray[j]);
+                    propInfo.SetValue(combinedRecord,
+                        Convert.ChangeType(completed ? "Yes" : "No",
                             propInfo.PropertyType), null);
                 }
 
@@ -97,7 +116,7 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
                             reportRecord.SalesDoc == record.SalesDoc && reportRecord.PurchaseOrderNo == record.PurchaseOrderNo &&
                             reportRecord.MaterialDescription == record.MaterialDescription)
                         ?.Comments;
-                    
+
                     var recordContiComment = upload.ReportRecords.Find(reportRecord =>
                             reportRecord.SalesDoc == record.SalesDoc && reportRecord.PurchaseOrderNo == record.PurchaseOrderNo &&
                             reportRecord.MaterialDescription == record.MaterialDescription)
@@ -107,7 +126,7 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
                     propInfo.SetValue(combinedRecord,
                         Convert.ChangeType(recordAberdareComment,
                             propInfo.PropertyType), null);
-                    
+
                     PropertyInfo propInfoConti = combinedRecord.GetType().GetProperty(upload.CommentIdentifier + contiCommentsName);
                     propInfoConti.SetValue(combinedRecord,
                         Convert.ChangeType(recordContiComment,
@@ -118,7 +137,7 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
             customObjs.Add(combinedRecord);
         }
 
-        //_logger.LogInformation(JsonConvert.SerializeObject(customObjs));
+        // _logger.LogInformation(JsonConvert.SerializeObject(customObjs));
 
         dynamic obj = new ExpandoObject();
         obj.Report = unionedRecords;
@@ -140,11 +159,11 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
                 {
                     var val = customObjs.ElementAt(i - 2).GetType().GetProperty(commentColumnNamesArray[j])
                         .GetValue(customObjs.ElementAt(i - 2), null);
-                    if (val != null) 
+                    if (val != null)
                     {
                         switch (Type.GetTypeCode(val.GetType()))
                         {
-                            case TypeCode.String: 
+                            case TypeCode.String:
                                 wsSheet1.Cells[i, j - 1].Value = val;
                                 break;
                             case TypeCode.Int32:
@@ -153,19 +172,22 @@ public class GetCombinedReportQueryHandler : IRequestHandler<GetCombinedReportQu
                             case TypeCode.DateTime:
                                 wsSheet1.Cells[i, j - 1].Value = val;
                                 wsSheet1.Cells[i, j - 1].Style.Numberformat.Format = "mm-dd-yy";
-                                break; 
+                                break;
                             case TypeCode.Decimal:
                                 wsSheet1.Cells[i, j - 1].Value = val;
                                 wsSheet1.Cells[i, j - 1].Style.Numberformat.Format = "#,##0.00";
-                                break; 
-                            
+                                break;
+
                             default:
                                 wsSheet1.Cells[i, j - 1].Value = val;
                                 break;
                         }
+
+                        if (val == "Yes" && commentColumnNamesArray[j].Contains("completed"))
+                        {
+                            wsSheet1.Row(i).Style.Fill.SetBackground(Color.FromArgb(0, 255, 122));
+                        }
                     }
-                   
-                    
                 }
             }
         }
